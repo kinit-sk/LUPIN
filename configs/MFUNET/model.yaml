@@ -1,0 +1,77 @@
+# configurations for MFUNET model
+
+# Parameters for training model
+train_params:
+  device: cuda:0
+  #device: cpu
+  train_batch_size: 256
+  valid_batch_size: 256
+  test_batch_size: 256
+  predict_batch_size: 256
+  max_epochs: 20
+  # Max time used for training (days:hours:mins:secs)
+  max_time: "00:48:00:00"
+  # Validate after every n batches
+  val_check_interval: 1.0
+  num_workers: 0
+  gpus: 1
+  savefile: "mfunet-logcosh"
+  # many leadtimes
+  verif_leadtimes: 6
+  # number of batches to validate on
+  val_batches: 9999999
+  # number of baches to train on (per epoch)
+  train_batches: 9999999
+  early_stopping:
+    monitor: "val_loss"
+    patience: 3
+  lr_scheduler:
+    name: "reduce_lr_on_plateau"
+    kwargs:
+      mode: "min"
+      factor: 0.9
+      patience: 0
+
+model:
+  lr: 0.0005
+  rainnet:
+    input_shape: [6, 336, 336]
+    kernel_size: 3
+    mode: "motion_field"
+    conv_shape:
+      [
+        ["1", [6, 8]],
+        ["2", [8, 16]],
+        ["3", [16, 32]],
+        ["4", [32, 64]],
+        ["5", [64, 128]],
+        ["6", [192, 64]],
+        ["7", [96, 32]],
+        ["8", [48, 16]],
+        ["9", [24, 8]],
+      ]
+
+  loss:
+    name: "logcosh"
+    regularized: True
+    kwargs:
+      beta: 0.1
+    discount_rate: 0.0
+  train_leadtimes: 1
+  display: 250
+prediction:
+  predict_leadtimes: 6
+prediction_output:
+  # Output directory
+  output_dir: /data/lagrangian-nowcasting/outputs/
+  # Output filename format (can contain {common_time} to change time)
+  filename: xxx.h5
+  # where to save predictions in the HDF5 file
+  group_format: "{common_time:%Y-%m-%d %H:%M:%S}/model"
+  # Attributes of the dataset in the HDF5 file
+  what_attrs:
+    quantity: DBZH
+    gain: 0.5
+    offset: -32
+    nodata: 255
+    undetect: 0

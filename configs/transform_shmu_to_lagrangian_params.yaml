@@ -1,0 +1,36 @@
+precip_threshold_dbz: 0
+precip_threshold_mmh: 0
+
+rainrate_conversion:
+  a: 200
+  b: 1.6
+
+oflow_params:
+  # Method name from pysteps
+  oflow_method: "lucaskanade"
+  # How many fields to use for optical flow
+  oflow_history_length: 6
+  # Whether advection field should be updated
+  update_advfield: false
+  # Parameters for different methods
+  lucaskanade:
+    fd_method: "shitomasi"
+  # Parameters for extrapolation
+  extrap_kwargs:
+    # Interpolation order, options
+    # 1 (linear).
+    # 0 (nearest neighbor)
+    # 3 (cubic)
+    interp_order: 3
+
+output:
+  path: "/data/lagrangian_data/SHMU_6_6_v2/{year}/{month:02d}/{day:02d}"
+  filename: "{commontime:%Y%m%d%H%M}_shmu_lagrangian.h5"
+  fig_path: "shmu-figures-6-6-train"
+  display_freq: 500
+  # Config values for packing data
+  n_bits: 16
+  min_val_dBZ: 0
+  max_val_dBZ: 95
+  min_val_advfield: -10
+  max_val_advfield: 10
