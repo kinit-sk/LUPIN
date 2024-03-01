@@ -1,4 +1,4 @@
-# Weather nowcasting with Lagrangian Convolutional Neural Network
+# Lagrangian Double U-Net for Physics-Informed Nowcasting
 
 Repo is still work in progress. This repo contains set of scripts and notebooks for training and evaluating L-CNN, RainNet and LUPIN models for weather nowcasting. The general structure and a large part of the code (mainly L-CNN and RainNet) was based on source code for article 
 "Advection-free Convolutional Neural Network for Convective Rainfall Nowcasting" by Ritvanen et al. (2023) from https://github.com/fmidev/lagrangian-convolutional-neural-network/tree/main. We expand on it by adding the LUPIN model and the corresponding datasets, training scripts, etc.
